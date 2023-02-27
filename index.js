@@ -9,6 +9,7 @@ const mongoose = require("mongoose");
 const consumerRouter = require("./routes/consumerRoute");
 const deliveryAgentRouter = require("./routes/deliveryAgentRoute");
 const shopRouter = require("./routes/shopRoute");
+const employeeRouter = require("./routes/employeeRoute");
 
 app.use(cors());
 app.use(morgan("tiny"));
@@ -21,6 +22,7 @@ const connectDB = require("./database/connection");
 app.use("/consumer", consumerRouter);
 app.use("/deliveryAgent", deliveryAgentRouter);
 app.use("/shop", shopRouter);
+app.use("/employee", employeeRouter);
 
 const db = mongoose.connection;
 
