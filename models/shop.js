@@ -42,6 +42,10 @@ const ShopSchema = Schema({
     data: Buffer,
     contentType: String,
   },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
   address: {
     district: {
       type: String,

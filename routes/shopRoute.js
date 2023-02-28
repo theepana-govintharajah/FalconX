@@ -12,11 +12,20 @@ router.get("/", shopController.fetch_shops);
 // Fetch shop by id
 router.get("/:id", shopController.fetch_shop);
 
-// Fetch shop by district
+// Fetch shops by district
 router.get("/district/:district", shopController.fetch_shops_based_district);
 
-//Update consumers profile by ID
+// Fetch unverified shops by district
+router.get(
+  "/unverified/:district",
+  shopController.fetch_unverified_shops_based_district
+);
+
+//Update shop profile by ID
 router.patch("/profileUpdate/:id", shopController.update_shop_profile);
+
+//Verify shop profile by ID
+router.patch("/verify/:id", shopController.verify_shop_profile);
 
 // Disable or Enable consumer
 router.patch("/able/:id", shopController.disable_shop);

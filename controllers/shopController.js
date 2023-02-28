@@ -47,11 +47,26 @@ const fetch_shop = async (req, res) => {
   }
 };
 
-// Fetch shopss based on location- for employee panel
+// Fetch shops based on location- for employee panel
 const fetch_shops_based_district = async (req, res) => {
   const { district } = req.params;
   try {
     const shops = await shop.find({ "address.district": district });
+
+    res.status(200).json(shops);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Fetch unverified shops based on location- for employee panel
+const fetch_unverified_shops_based_district = async (req, res) => {
+  const { district } = req.params;
+  try {
+    const shops = await shop.find({
+      "address.district": district,
+      isVerified: false,
+    });
 
     res.status(200).json(shops);
   } catch (error) {
@@ -71,6 +86,21 @@ const update_shop_profile = async (req, res) => {
         mobile: req.body.mobile,
         email: req.body.email,
         password: req.body.password,
+      },
+    });
+    res.status(200).json(updateShop);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Verify shop profile by employee
+const verify_shop_profile = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updateShop = await shop.findByIdAndUpdate(id, {
+      $set: {
+        isVerified: true,
       },
     });
     res.status(200).json(updateShop);
@@ -116,4 +146,6 @@ module.exports = {
   disable_shop,
   fetch_shops_based_district,
   delete_shop_profile,
+  fetch_unverified_shops_based_district,
+  verify_shop_profile,
 };
