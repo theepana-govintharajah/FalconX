@@ -84,20 +84,27 @@ const update_item_profile = async (req, res) => {
 
 // update item quantity
 const update_item_quantity = async (req, res) => {
-  const { id, orderQuantity } = req.params;
+  const { id } = req.params;
+  const { orderQuantity } = req.body;
+
   try {
     const itemToUpdate = await item.findById(id);
     const updatedQuantity = itemToUpdate.quantity - orderQuantity;
+
     if (updatedQuantity < 0) {
       return res
         .status(400)
         .json({ message: "Order quantity exceeds item quantity" });
     }
+
     itemToUpdate.quantity = updatedQuantity;
+
     await itemToUpdate.save();
+
     if (updatedQuantity === 0) {
       await item.findByIdAndDelete(id);
     }
+
     res.status(200).json(itemToUpdate);
   } catch (error) {
     res.status(400).json({ message: error.message });

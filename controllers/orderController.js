@@ -159,11 +159,46 @@ const update_orderStatus_orderCollectedToWarehosue = async (req, res) => {
   }
 };
 
+// //Fetch the orders if consumer district and shop district are different
+// const fetch_orders_with_different_districts = async (req, res) => {
+//   try {
+//     const orders = await Order.aggregate([
+//       {
+//         $lookup: {
+//           from: "shops",
+//           localField: "shopId",
+//           foreignField: "_id",
+//           as: "shop",
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "consumers",
+//           localField: "consumerId",
+//           foreignField: "_id",
+//           as: "consumer",
+//         },
+//       },
+//       {
+//         $match: {
+//           $expr: {
+//             $ne: ["$consumer.address.district", "$shop.address.district"],
+//           },
+//         },
+//       },
+//     ]);
+//     res.status(200).json(orders);
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// };
+
 module.exports = {
   post_order,
   fetch_orders,
   fetch_order,
   fetch_placed_orders,
+  // fetch_orders_with_different_districts,
   fetch_orders_based_shopId,
   fetch_orders_based_consumerId,
   fetch_orders_based_deliveryAgentId,
