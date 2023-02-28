@@ -6,6 +6,9 @@ const consumerController = require("../controllers/consumerController");
 // Register new consumer
 router.post("/register", consumerController.post_consumer);
 
+// Login consumer
+router.post("/login", consumerController.login_consumer);
+
 // Fetch all consumers
 router.get("/", consumerController.fetch_consumers);
 

@@ -1,6 +1,8 @@
 const consumer = require("../models/consumer");
 const bcrypt = require("bcryptjs");
 
+const createToken = require("./createToken");
+
 // Add new consumer to the database
 const post_consumer = async (req, res) => {
   // Hash the password
@@ -30,6 +32,35 @@ const post_consumer = async (req, res) => {
     res.status(201).json(newConsumer);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+// Login consumer
+const login_consumer = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Find the consumer with the given email
+    const foundConsumer = await consumer.findOne({ email });
+
+    // If the consumer doesn't exist, return an error
+    if (!foundConsumer) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // Compare the given password with the hashed password in the database
+    const isMatch = await bcrypt.compare(password, foundConsumer.password);
+
+    // If the passwords don't match, return an error
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // If the passwords match, create a token and return it to the client
+    const token = createToken(foundConsumer._id);
+    res.json({ token });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -109,6 +140,7 @@ const disable_consumer = async (req, res) => {
 
 module.exports = {
   post_consumer,
+  login_consumer,
   fetch_consumers,
   fetch_consumer,
   update_consumer_profile,

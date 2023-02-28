@@ -1,6 +1,8 @@
 const employee = require("../models/employee");
 const bcrypt = require("bcryptjs");
 
+const createToken = require("./createToken");
+
 // Add new employee to the database
 const post_employee = async (req, res) => {
   const hashedPassword = await bcrypt.hash(req.body.password, 12);
@@ -25,6 +27,35 @@ const post_employee = async (req, res) => {
     res.status(201).json(newEmployee);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+// Login employee
+const login_employee = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Find the consumer with the given email
+    const foundEmployee = await employee.findOne({ email });
+
+    // If the consumer doesn't exist, return an error
+    if (!foundEmployee) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // Compare the given password with the hashed password in the database
+    const isMatch = await bcrypt.compare(password, foundEmployee.password);
+
+    // If the passwords don't match, return an error
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // If the passwords match, create a token and return it to the client
+    const token = createToken(foundEmployee._id);
+    res.json({ token });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -102,6 +133,7 @@ const disable_employee = async (req, res) => {
 
 module.exports = {
   post_employee,
+  login_employee,
   fetch_employees,
   fetch_employee,
   update_employee_profile,

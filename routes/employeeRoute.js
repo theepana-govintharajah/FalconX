@@ -6,6 +6,9 @@ const employeeController = require("../controllers/employeeController");
 // Register new employee
 router.post("/register", employeeController.post_employee);
 
+// Login employee
+router.post("/login", employeeController.login_employee);
+
 // Fetch all employees
 router.get("/", employeeController.fetch_employees);
 
