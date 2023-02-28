@@ -67,18 +67,37 @@ const fetch_orders_based_consumerId = async (req, res) => {
   }
 };
 
-// // Fetch not yet delivered orders based on consumerId- for admin pannel
-// const fetch_delivered_orders = async (req, res) => {
-//   try {
-//     const orders = await order.find({
-//       orderStatus: "Order placed",
-//     });
+// Fetch orders based on deliveryAgentId- for employee panel and delivery agent pannel
+const fetch_orders_based_deliveryAgentId = async (req, res) => {
+  const { deliveryAgentId } = req.params;
+  try {
+    const orders = await order.find({
+      $or: [
+        { shopToWarehouse: { $eq: deliveryAgentId } },
+        { warehouseToShop: { $eq: deliveryAgentId } },
+      ],
+    });
 
-//     res.status(200).json(orders);
-//   } catch (error) {
-//     res.status(400).json({ message: error.message });
-//   }
-// };
+    res.status(200).json(orders);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Fetch freshed placed orders based on districts (not handled orders yet) - for admin pannel
+const fetch_placed_orders = async (req, res) => {
+  const { district } = req.params;
+  try {
+    const orders = await order.find({
+      orderStatus: "Order placed",
+      district: district,
+    });
+
+    res.status(200).json(orders);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
 
 // update delivery agent by employee - From shop to warehouse
 const update_shopToWarehouse_deliveryAgent = async (req, res) => {
@@ -129,8 +148,10 @@ module.exports = {
   post_order,
   fetch_orders,
   fetch_order,
+  fetch_placed_orders
   fetch_orders_based_shopId,
   fetch_orders_based_consumerId,
+  fetch_orders_based_deliveryAgentId,
   update_shopToWarehouse_deliveryAgent,
   update_warehouseToShop_deliveryAgent,
   update_orderStatus_deliveredSuccessfully,

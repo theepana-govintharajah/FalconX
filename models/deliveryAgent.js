@@ -31,15 +31,14 @@ const DeliveryAgentSchema = Schema({
   vehicleType: {
     type: String,
     required: true,
-    unique: true,
     maxLength: [127, "Max Length is 127 characters"],
   },
   vehicleNumber: {
     type: String,
     unique: true,
     required: true,
-    minLength: [7, "Min Length is 10 characters"],
-    maxLength: [7, "Max Length is 15 characters"],
+    minLength: [7, "Min Length is 7 characters"],
+    maxLength: [15, "Max Length is 15 characters"],
   },
   drivingLicenseNumber: {
     type: String,

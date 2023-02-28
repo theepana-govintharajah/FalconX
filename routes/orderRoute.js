@@ -21,6 +21,12 @@ router.get(
   orderController.fetch_orders_based_consumerId
 );
 
+// Fetch orders by deliveryAgentId
+router.get(
+  "/deliveryAgentId/:deliveryAgentId",
+  orderController.fetch_orders_based_deliveryAgentId
+);
+
 //Update shop To Warehouse delivery agent by ID
 router.patch(
   "/shopToWarehouse/:id",
