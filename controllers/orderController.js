@@ -144,6 +144,21 @@ const update_orderStatus_deliveredSuccessfully = async (req, res) => {
   }
 };
 
+// update order status to "order collected to the warehouse" by delivery agent after item delivered to consumers
+const update_orderStatus_orderCollectedToWarehosue = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updateOrder = await order.findByIdAndUpdate(id, {
+      $set: {
+        orderStatus: "Order collected to warehouse",
+      },
+    });
+    res.status(200).json(updateOrder);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   post_order,
   fetch_orders,
@@ -155,5 +170,5 @@ module.exports = {
   update_shopToWarehouse_deliveryAgent,
   update_warehouseToShop_deliveryAgent,
   update_orderStatus_deliveredSuccessfully,
-  //   fetch_delivered_orders,
+  update_orderStatus_orderCollectedToWarehosue,
 };

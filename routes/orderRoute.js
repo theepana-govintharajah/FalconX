@@ -45,7 +45,13 @@ router.patch(
   orderController.update_orderStatus_deliveredSuccessfully
 );
 
-// // Fetch delivered orders by admin
-// router.get("/delivered", orderController.fetch_delivered_orders);
+//Update orderStatus to delivered successfully
+router.patch(
+  "/orderStatus/orderCollectedToWarehosue/:id",
+  orderController.update_orderStatus_orderCollectedToWarehosue
+);
+
+// Fetch placed orders by based on district - not handled orders by employee
+router.get("/placed/:district", orderController.fetch_placed_orders);
 
 module.exports = router;
