@@ -12,21 +12,21 @@ router.get("/", deliveryAgentController.fetch_deliveryAgents);
 // Fetch delivery agent by id
 router.get("/:id", deliveryAgentController.fetch_deliveryAgent);
 
-// Fetch consumer by district
+// Fetch delivery agent by district
 router.get(
   "/district/:district",
   deliveryAgentController.fetch_deliveryAgents_based_district
 );
 
-// Fetch consumer by district and vehicle type
+// Fetch delivery agent by district and vehicle type
 router.get(
-  "/district/vehicleType/:district/:vehilceType",
+  "/district/vehicleType/:district/:vehicleType",
   deliveryAgentController.fetch_deliveryAgents_based_district_VehicleType
 );
 
 // Fetch consumer by city and vehicle type
 router.get(
-  "/city/vehicleType/:district/:vehilceType",
+  "/city/vehicleType/:city/:vehicleType",
   deliveryAgentController.fetch_deliveryAgents_based_city_VehicleType
 );
 
