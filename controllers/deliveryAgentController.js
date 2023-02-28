@@ -3,7 +3,6 @@ const bcrypt = require("bcryptjs");
 
 // Add new consumer to the database
 const post_delivery_agent = async (req, res) => {
-  // console.log("controller delivery agent");
   const newDeliveryAgent = new deliveryAgent({
     name: {
       fName:
@@ -26,8 +25,6 @@ const post_delivery_agent = async (req, res) => {
       street: req.body.street,
     },
   });
-
-  console.log("controller delivery agent");
 
   try {
     await newDeliveryAgent.save();
@@ -113,6 +110,18 @@ const disable_deliveryAgent = async (req, res) => {
   }
 };
 
+// delete delivery agent profile
+const delete_deliveryAgent_profile = async (req, res) => {
+  console.log("item deleted");
+  const { id } = req.params;
+  try {
+    const deletedItem = await deliveryAgent.findByIdAndDelete(id);
+    res.status(200).json(deletedItem);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   post_delivery_agent,
   fetch_deliveryAgents,
@@ -120,4 +129,5 @@ module.exports = {
   fetch_deliveryAgents_based_district,
   update_deliveryAgent_profile,
   disable_deliveryAgent,
+  delete_deliveryAgent_profile,
 };

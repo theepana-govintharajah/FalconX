@@ -27,4 +27,10 @@ router.patch(
 // Disable or Enable delivery agent
 router.patch("/able/:id", deliveryAgentController.disable_deliveryAgent);
 
+//Delete item profile by ID
+router.delete(
+  "/profileDelete/:id",
+  deliveryAgentController.delete_deliveryAgent_profile
+);
+
 module.exports = router;

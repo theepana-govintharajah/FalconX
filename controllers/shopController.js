@@ -96,6 +96,18 @@ const disable_shop = async (req, res) => {
   }
 };
 
+// delete shop profile
+const delete_shop_profile = async (req, res) => {
+  console.log("item deleted");
+  const { id } = req.params;
+  try {
+    const deletedItem = await shop.findByIdAndDelete(id);
+    res.status(200).json(deletedItem);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   post_shop,
   fetch_shops,
@@ -103,4 +115,5 @@ module.exports = {
   update_shop_profile,
   disable_shop,
   fetch_shops_based_district,
+  delete_shop_profile,
 };

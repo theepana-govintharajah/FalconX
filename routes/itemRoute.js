@@ -15,4 +15,7 @@ router.get("/:id", itemController.fetch_item);
 //Update item profile by ID
 router.patch("/profileUpdate/:id", itemController.update_item_profile);
 
+//Delete item profile by ID
+router.delete("/profileDelete/:id", itemController.delete_item_profile);
+
 module.exports = router;

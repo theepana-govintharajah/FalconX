@@ -32,9 +32,7 @@ const fetch_items = async (req, res) => {
 
 // Fetch item by id
 const fetch_item = async (req, res) => {
-  console.log("item retrived");
   const { id } = req.params;
-  console.log(id);
   try {
     const requiredItem = await item.findById(id);
     res.status(200).json(requiredItem);
@@ -45,7 +43,6 @@ const fetch_item = async (req, res) => {
 
 // update item profile
 const update_item_profile = async (req, res) => {
-  console.log("item update");
   const { id } = req.params;
   try {
     const updateItem = await item.findByIdAndUpdate(id, {
@@ -60,9 +57,22 @@ const update_item_profile = async (req, res) => {
   }
 };
 
+// delete item profile
+const delete_item_profile = async (req, res) => {
+  console.log("item deleted");
+  const { id } = req.params;
+  try {
+    const deletedItem = await item.findByIdAndDelete(id);
+    res.status(200).json(deletedItem);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   post_item,
   fetch_items,
   fetch_item,
   update_item_profile,
+  delete_item_profile,
 };

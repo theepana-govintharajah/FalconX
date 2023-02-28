@@ -21,4 +21,7 @@ router.patch("/profileUpdate/:id", shopController.update_shop_profile);
 // Disable or Enable consumer
 router.patch("/able/:id", shopController.disable_shop);
 
+//Delete item profile by ID
+router.delete("/profileDelete/:id", shopController.delete_shop_profile);
+
 module.exports = router;
