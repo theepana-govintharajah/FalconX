@@ -13,7 +13,7 @@ const OrderSchema = Schema({
   },
   consumerId: {
     type: Schema.Types.ObjectId,
-    ref: "consumer",
+    ref: "Consumer",
   },
   orderStatus: {
     type: String,

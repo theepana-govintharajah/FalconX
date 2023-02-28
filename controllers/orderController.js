@@ -1,5 +1,6 @@
 const order = require("../models/order");
 const shop = require("../models/shop");
+const consumer = require("../models/consumer");
 const bcrypt = require("bcryptjs");
 
 // Placing new order by the consumer
