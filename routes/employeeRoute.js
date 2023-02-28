@@ -12,6 +12,12 @@ router.get("/", employeeController.fetch_employees);
 // Fetch employee by id
 router.get("/:id", employeeController.fetch_employee);
 
+// Fetch employee by district
+router.get(
+  "/district/:district",
+  employeeController.fetch_employee_based_district
+);
+
 //Update employees profile by ID
 router.patch("/profileUpdate/:id", employeeController.update_employee_profile);
 

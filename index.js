@@ -10,6 +10,7 @@ const consumerRouter = require("./routes/consumerRoute");
 const deliveryAgentRouter = require("./routes/deliveryAgentRoute");
 const shopRouter = require("./routes/shopRoute");
 const employeeRouter = require("./routes/employeeRoute");
+const itemRouter = require("./routes/itemRoute");
 
 app.use(cors());
 app.use(morgan("tiny"));
@@ -23,6 +24,7 @@ app.use("/consumer", consumerRouter);
 app.use("/deliveryAgent", deliveryAgentRouter);
 app.use("/shop", shopRouter);
 app.use("/employee", employeeRouter);
+app.use("/item", itemRouter);
 
 const db = mongoose.connection;
 

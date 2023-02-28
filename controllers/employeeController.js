@@ -50,6 +50,18 @@ const fetch_employee = async (req, res) => {
   }
 };
 
+// Fetch employee based on location- other filteration purposes
+const fetch_employee_based_district = async (req, res) => {
+  const { district } = req.params;
+  try {
+    const employees = await employee.find({ district: district });
+
+    res.status(200).json(employees);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // update employee profile
 const update_employee_profile = async (req, res) => {
   const { id } = req.params;
@@ -93,4 +105,5 @@ module.exports = {
   fetch_employee,
   update_employee_profile,
   disable_employee,
+  fetch_employee_based_district,
 };
