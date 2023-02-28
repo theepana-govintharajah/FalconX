@@ -41,6 +41,30 @@ const fetch_item = async (req, res) => {
   }
 };
 
+// Filter items based on shop
+const fetch_items_based_shop = async (req, res) => {
+  const { shopId } = req.params;
+  try {
+    const items = await item.find({ shopId: shopId });
+
+    res.status(200).json(items);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Filter items based on category
+const fetch_items_based_category = async (req, res) => {
+  const { category } = req.params;
+  try {
+    const items = await item.find({ category: category });
+
+    res.status(200).json(items);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // update item profile
 const update_item_profile = async (req, res) => {
   const { id } = req.params;
@@ -75,4 +99,6 @@ module.exports = {
   fetch_item,
   update_item_profile,
   delete_item_profile,
+  fetch_items_based_shop,
+  fetch_items_based_category,
 };

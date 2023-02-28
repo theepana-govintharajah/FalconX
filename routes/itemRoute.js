@@ -12,6 +12,12 @@ router.get("/", itemController.fetch_items);
 // Fetch item by id
 router.get("/:id", itemController.fetch_item);
 
+// Fetch item based on shop
+router.get("/shop/:shopId", itemController.fetch_items_based_shop);
+
+// Fetch item based on category
+router.get("/category/:category", itemController.fetch_items_based_category);
+
 //Update item profile by ID
 router.patch("/profileUpdate/:id", itemController.update_item_profile);
 
