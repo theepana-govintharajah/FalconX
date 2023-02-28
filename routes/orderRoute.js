@@ -21,6 +21,24 @@ router.get(
   orderController.fetch_orders_based_consumerId
 );
 
+//Update shop To Warehouse delivery agent by ID
+router.patch(
+  "/shopToWarehouse/:id",
+  orderController.update_shopToWarehouse_deliveryAgent
+);
+
+//Update Warehouse to shop delivery agent by ID
+router.patch(
+  "/warehouseToShop/:id",
+  orderController.update_warehouseToShop_deliveryAgent
+);
+
+//Update orderStatus to delivered successfully
+router.patch(
+  "/orderStatus/deliveredSuccessfully/:id",
+  orderController.update_orderStatus_deliveredSuccessfully
+);
+
 // // Fetch delivered orders by admin
 // router.get("/delivered", orderController.fetch_delivered_orders);
 

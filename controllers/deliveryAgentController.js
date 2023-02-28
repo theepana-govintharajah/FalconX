@@ -59,6 +59,36 @@ const fetch_deliveryAgents_based_district = async (req, res) => {
   }
 };
 
+// Fetch delivery agents based on district and vehicle Type - for employee panel
+const fetch_deliveryAgents_based_district_VehicleType = async (req, res) => {
+  const { district, vehicleType } = req.params;
+  try {
+    const deliveryAgents = await deliveryAgent.find({
+      "address.district": district,
+      vehicleType: vehicleType,
+    });
+
+    res.status(200).json(deliveryAgents);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Fetch delivery agents based on city and vehicle Type - for employee panel
+const fetch_deliveryAgents_based_city_VehicleType = async (req, res) => {
+  const { city, vehicleType } = req.params;
+  try {
+    const deliveryAgents = await deliveryAgent.find({
+      "address.city": city,
+      vehicleType: vehicleType,
+    });
+
+    res.status(200).json(deliveryAgents);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Fetch delivery agent by id
 const fetch_deliveryAgent = async (req, res) => {
   const { id } = req.params;
@@ -127,6 +157,8 @@ module.exports = {
   fetch_deliveryAgents,
   fetch_deliveryAgent,
   fetch_deliveryAgents_based_district,
+  fetch_deliveryAgents_based_district_VehicleType,
+  fetch_deliveryAgents_based_city_VehicleType,
   update_deliveryAgent_profile,
   disable_deliveryAgent,
   delete_deliveryAgent_profile,

@@ -18,6 +18,18 @@ router.get(
   deliveryAgentController.fetch_deliveryAgents_based_district
 );
 
+// Fetch consumer by district and vehicle type
+router.get(
+  "/district/vehicleType/:district/:vehilceType",
+  deliveryAgentController.fetch_deliveryAgents_based_district_VehicleType
+);
+
+// Fetch consumer by city and vehicle type
+router.get(
+  "/city/vehicleType/:district/:vehilceType",
+  deliveryAgentController.fetch_deliveryAgents_based_city_VehicleType
+);
+
 //Update delivery agent profile by ID
 router.patch(
   "/profileUpdate/:id",
