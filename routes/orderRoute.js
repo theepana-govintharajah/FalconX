@@ -27,6 +27,18 @@ router.get(
   orderController.fetch_orders_based_deliveryAgentId
 );
 
+// Fetch orders where shop district and consumer district are not same based on Employee district
+router.get(
+  "/differentDistrict/:district",
+  orderController.fetch_orders_with_different_districts
+);
+
+// Fetch orders where shop district and consumer district are same based on Employee district
+router.get(
+  "/sameDistrict/:district",
+  orderController.fetch_orders_with_same_districts
+);
+
 //Update shop To Warehouse delivery agent by ID
 router.patch(
   "/shopToWarehouse/:id",
