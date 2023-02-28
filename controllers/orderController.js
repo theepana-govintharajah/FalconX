@@ -1,4 +1,5 @@
 const order = require("../models/order");
+const shop = require("../models/shop");
 const bcrypt = require("bcryptjs");
 
 // Placing new order by the consumer
@@ -88,9 +89,22 @@ const fetch_orders_based_deliveryAgentId = async (req, res) => {
 const fetch_placed_orders = async (req, res) => {
   const { district } = req.params;
   try {
+    // Find the shops that are located in the given district
+    const shops = await shop.find({ "address.district": district });
+
+    // Get the shop ids of the shops located in the given district
+    console.log("Shops:", shops);
+    const shopIds = shops.map((shop) => shop._id);
+
+    console.log(shopIds.length);
+    if (shopIds.length === 0) {
+      return res.status(200).json([]);
+    }
+
+    // Find the orders that are placed and belong to the shops located in the given district
     const orders = await order.find({
       orderStatus: "Order placed",
-      district: district,
+      shopId: { $in: shopIds },
     });
 
     res.status(200).json(orders);
@@ -159,11 +173,11 @@ const update_orderStatus_orderCollectedToWarehosue = async (req, res) => {
   }
 };
 
-//Fetch the orders if consumer district and shop district are different for freshed orders (not handled orders)
 const fetch_orders_with_different_districts = async (req, res) => {
   const { district } = req.params;
   try {
-    const orders = await Order.find({ orderStatus: "order placed" })
+    const orders = await order
+      .find({ orderStatus: "order placed" })
       .populate({
         path: "consumerId",
         select: "address.district",
@@ -176,8 +190,8 @@ const fetch_orders_with_different_districts = async (req, res) => {
 
     const filteredOrders = orders.filter(
       (order) =>
-        order.consumerId.address.district !== shopDistrict &&
-        order.shopId.address.district === shopDistrict
+        order.consumerId.address.district !== district &&
+        order.shopId.address.district === district
     );
 
     res.status(200).json(filteredOrders);
@@ -190,7 +204,8 @@ const fetch_orders_with_different_districts = async (req, res) => {
 const fetch_orders_with_same_districts = async (req, res) => {
   const { district } = req.params;
   try {
-    const orders = await Order.find({ orderStatus: "order placed" })
+    const orders = await order
+      .find({ orderStatus: "order placed" })
       .populate({
         path: "consumerId",
         select: "address.district",
@@ -203,8 +218,8 @@ const fetch_orders_with_same_districts = async (req, res) => {
 
     const filteredOrders = orders.filter(
       (order) =>
-        order.consumerId.address.district === shopDistrict &&
-        order.shopId.address.district === shopDistrict
+        order.consumerId.address.district === district &&
+        order.shopId.address.district === district
     );
 
     res.status(200).json(filteredOrders);
