@@ -1,6 +1,8 @@
 const deliveryAgent = require("../models/deliveryAgent");
 const bcrypt = require("bcryptjs");
 
+const createToken = require("./createToken");
+
 // Add new consumer to the database
 const post_delivery_agent = async (req, res) => {
   const hashedPassword = await bcrypt.hash(req.body.password, 12);
@@ -32,6 +34,35 @@ const post_delivery_agent = async (req, res) => {
     res.status(201).json(newDeliveryAgent);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+// Login delivery agent
+const login_deliveryAgent = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Find the consumer with the given email
+    const foundDeliveryAgent = await deliveryAgent.findOne({ email });
+
+    // If the consumer doesn't exist, return an error
+    if (!foundDeliveryAgent) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // Compare the given password with the hashed password in the database
+    const isMatch = await bcrypt.compare(password, foundDeliveryAgent.password);
+
+    // If the passwords don't match, return an error
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // If the passwords match, create a token and return it to the client
+    const token = createToken(foundDeliveryAgent._id);
+    res.json({ token });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -155,6 +186,7 @@ const delete_deliveryAgent_profile = async (req, res) => {
 
 module.exports = {
   post_delivery_agent,
+  login_deliveryAgent,
   fetch_deliveryAgents,
   fetch_deliveryAgent,
   fetch_deliveryAgents_based_district,

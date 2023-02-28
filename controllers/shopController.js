@@ -1,6 +1,8 @@
 const shop = require("../models/shop");
 const bcrypt = require("bcryptjs");
 
+const createToken = require("./createToken");
+
 // Add new shop to the database
 const post_shop = async (req, res) => {
   const hashedPassword = await bcrypt.hash(req.body.password, 12);
@@ -22,6 +24,35 @@ const post_shop = async (req, res) => {
     res.status(201).json(newShop);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+// Login shop
+const login_shop = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Find the consumer with the given email
+    const foundShop = await shop.findOne({ email });
+
+    // If the consumer doesn't exist, return an error
+    if (!foundShop) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // Compare the given password with the hashed password in the database
+    const isMatch = await bcrypt.compare(password, foundShop.password);
+
+    // If the passwords don't match, return an error
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // If the passwords match, create a token and return it to the client
+    const token = createToken(foundShop._id);
+    res.json({ token });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -142,6 +173,7 @@ const delete_shop_profile = async (req, res) => {
 module.exports = {
   post_shop,
   fetch_shops,
+  login_shop,
   fetch_shop,
   update_shop_profile,
   disable_shop,

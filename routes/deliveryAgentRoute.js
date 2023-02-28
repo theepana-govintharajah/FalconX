@@ -6,6 +6,9 @@ const deliveryAgentController = require("../controllers/deliveryAgentController"
 // Register new delivery agent
 router.post("/register", deliveryAgentController.post_delivery_agent);
 
+// Login delivery agent
+router.post("/login", deliveryAgentController.login_deliveryAgent);
+
 // Fetch all delivery agents
 router.get("/", deliveryAgentController.fetch_deliveryAgents);
 

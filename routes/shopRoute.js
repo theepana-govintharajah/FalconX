@@ -6,6 +6,9 @@ const shopController = require("../controllers/shopController");
 // Register new shop
 router.post("/register", shopController.post_shop);
 
+// Login shop
+router.post("/login", shopController.login_shop);
+
 // Fetch all shops
 router.get("/", shopController.fetch_shops);
 
