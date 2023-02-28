@@ -9,6 +9,7 @@ const post_item = async (req, res) => {
     price: req.body.price,
     description: req.body.description,
     shopId: req.body.shopId,
+    quantity: req.body.quantity,
   });
 
   try {
@@ -81,6 +82,28 @@ const update_item_profile = async (req, res) => {
   }
 };
 
+// update item quantity
+const update_item_quantity = async (req, res) => {
+  const { id, orderQuantity } = req.params;
+  try {
+    const itemToUpdate = await item.findById(id);
+    const updatedQuantity = itemToUpdate.quantity - orderQuantity;
+    if (updatedQuantity < 0) {
+      return res
+        .status(400)
+        .json({ message: "Order quantity exceeds item quantity" });
+    }
+    itemToUpdate.quantity = updatedQuantity;
+    await itemToUpdate.save();
+    if (updatedQuantity === 0) {
+      await item.findByIdAndDelete(id);
+    }
+    res.status(200).json(itemToUpdate);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // delete item profile
 const delete_item_profile = async (req, res) => {
   console.log("item deleted");
@@ -101,4 +124,5 @@ module.exports = {
   delete_item_profile,
   fetch_items_based_shop,
   fetch_items_based_category,
+  update_item_quantity,
 };

@@ -22,7 +22,10 @@ const OrderSchema = Schema({
   price: {
     type: Number,
     required: true,
-    maxLength: [127, "Max Length is 127 characters"],
+  },
+  quantity: {
+    type: Number,
+    required: true,
   },
   shopToWarehouse: {
     type: Schema.Types.ObjectId,

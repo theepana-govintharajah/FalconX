@@ -18,9 +18,11 @@ const ItemSchema = Schema({
   price: {
     type: Number,
     required: true,
-    maxLength: [127, "Max Length is 127 characters"],
   },
-
+  quantity: {
+    type: Number,
+    required: true,
+  },
   description: {
     type: String,
     maxLength: [127, "Max Length is 127 characters"],

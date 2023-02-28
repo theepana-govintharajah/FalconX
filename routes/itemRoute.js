@@ -21,6 +21,12 @@ router.get("/category/:category", itemController.fetch_items_based_category);
 //Update item profile by ID
 router.patch("/profileUpdate/:id", itemController.update_item_profile);
 
+//Update item quantity profile by ID
+router.patch(
+  "/quantityUpdate/:id/orderQuantity",
+  itemController.update_item_quantity
+);
+
 //Delete item profile by ID
 router.delete("/profileDelete/:id", itemController.delete_item_profile);
 
