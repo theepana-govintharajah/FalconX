@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 
 // Add new employee to the database
 const post_employee = async (req, res) => {
+  const hashedPassword = await bcrypt.hash(req.body.password, 12);
   const newEmployee = new employee({
     name: {
       fName:
@@ -12,7 +13,7 @@ const post_employee = async (req, res) => {
         req.body.lName.charAt(0).toUpperCase() +
         req.body.lName.slice(1).toLowerCase(),
     },
-    password: req.body.password,
+    password: hashedPassword,
     mobile: req.body.mobile,
     email: req.body.email,
     NIC: req.body.NIC,

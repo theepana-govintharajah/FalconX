@@ -3,10 +3,11 @@ const bcrypt = require("bcryptjs");
 
 // Add new shop to the database
 const post_shop = async (req, res) => {
+  const hashedPassword = await bcrypt.hash(req.body.password, 12);
   const newShop = new shop({
     shopName: req.body.shopName,
     ownerName: req.body.ownerName,
-    password: req.body.password,
+    password: hashedPassword,
     mobile: req.body.mobile,
     email: req.body.email,
     address: {
