@@ -148,7 +148,7 @@ module.exports = {
   post_order,
   fetch_orders,
   fetch_order,
-  fetch_placed_orders
+  fetch_placed_orders,
   fetch_orders_based_shopId,
   fetch_orders_based_consumerId,
   fetch_orders_based_deliveryAgentId,
