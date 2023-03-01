@@ -57,6 +57,21 @@ const fetch_orders_based_shopId = async (req, res) => {
   }
 };
 
+// Fetch orders based on shopId- for employee panel and shop pannel
+const fetch_unhandled_orders_based_shopId = async (req, res) => {
+  const { shopId } = req.params;
+  try {
+    const orders = await order.find({
+      shopId: shopId,
+      orderStatus: "order placed",
+    });
+
+    res.status(200).json(orders);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Fetch orders based on consumerId- for employee panel and consumer pannel
 const fetch_orders_based_consumerId = async (req, res) => {
   const { consumerId } = req.params;
@@ -237,6 +252,7 @@ module.exports = {
   fetch_orders_with_different_districts,
   fetch_orders_with_same_districts,
   fetch_orders_based_shopId,
+  fetch_unhandled_orders_based_shopId,
   fetch_orders_based_consumerId,
   fetch_orders_based_deliveryAgentId,
   update_shopToWarehouse_deliveryAgent,

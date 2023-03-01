@@ -15,6 +15,12 @@ router.get("/:id", orderController.fetch_order);
 // Fetch orders by shopId
 router.get("/shopId/:shopId", orderController.fetch_orders_based_shopId);
 
+// Fetch unhandled orders by shopId
+router.get(
+  "/unhandled/shopId/:shopId",
+  orderController.fetch_unhandled_orders_based_shopId
+);
+
 // Fetch orders by consumerId
 router.get(
   "/consumerId/:consumerId",
