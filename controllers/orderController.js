@@ -5,12 +5,13 @@ const bcrypt = require("bcryptjs");
 
 // Placing new order by the consumer
 const post_order = async (req, res) => {
+  const quantity = req.body.quantity ? req.body.quantity : 1;
   const newOrder = new order({
     shopId: req.body.shopId,
     itemId: req.body.itemId,
     price: req.body.price,
     consumerId: req.body.consumerId,
-    quantity: req.body.quantity,
+    quantity: quantity,
     orderStatus: "Order placed",
   });
 

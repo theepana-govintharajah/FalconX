@@ -72,7 +72,10 @@ const update_item_profile = async (req, res) => {
   try {
     const updateItem = await item.findByIdAndUpdate(id, {
       $set: {
+        itemCode: req.body.itemCode,
+        category: req.body.category,
         price: req.body.price,
+        quantity: req.body.quantity,
         description: req.body.description,
       },
     });
