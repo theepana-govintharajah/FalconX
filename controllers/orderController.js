@@ -64,7 +64,7 @@ const fetch_unhandled_orders_based_shopId = async (req, res) => {
   try {
     const orders = await order.find({
       shopId: shopId,
-      orderStatus: "order placed",
+      orderStatus: "Order placed",
     });
 
     res.status(200).json(orders);
